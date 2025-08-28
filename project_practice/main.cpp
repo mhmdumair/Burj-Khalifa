@@ -260,9 +260,9 @@ void display() {
 
     // Moonlight setup
     GLfloat light_position[] = { 10000.0, 10000.0, -10000.0, 0.0 };
-    GLfloat light_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f }; // Corrected to be neutral
-    GLfloat light_diffuse[] = { 0.5f, 0.5f, 0.5f, 1.0f }; // Corrected to be neutral
-    GLfloat light_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f }; // Corrected to be neutral
+    GLfloat light_ambient[] = { 0.2f, 0.2f, 0.25f, 1.0f };
+    GLfloat light_diffuse[] = { 0.5f, 0.5f, 0.6f, 1.0f };
+    GLfloat light_specular[] = { 0.5f, 0.5f, 0.6f, 1.0f };
 
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
@@ -313,7 +313,7 @@ void display() {
     drawCone(0, 0, 0, spireHeight, spireBaseRadius, 32);
     glPopMatrix();
 
-    // Draw smaller buildings on the platform with varying floor counts
+    // Draw smaller buildings on the platform with varying floor counts and dimensions
     struct Building { float x, z, length, width, height; int floors; };
     Building buildings[] = {
         {600, 300, 100, 50, 400, 12},
@@ -321,7 +321,18 @@ void display() {
         {500, -500, 120, 60, 800, 10},
         {-700, -200, 90, 90, 500, 14},
         {100, -800, 70, 70, 300, 11},
-        {-200, 200, 60, 100, 450, 13}
+        {-200, 200, 60, 100, 450, 13},
+        {800, 100, 50, 110, 350, 10},
+        {-500, -600, 75, 55, 550, 13},
+        {200, 700, 60, 80, 480, 14},
+        {-800, 300, 110, 40, 700, 15},
+        {750, -400, 90, 120, 420, 11},
+        {-150, -650, 110, 60, 580, 14},
+        {350, 600, 150, 80, 500, 12},
+        {-600, 150, 85, 140, 750, 15},
+        {400, -250, 130, 95, 650, 14},
+        {-250, -700, 115, 100, 470, 11},
+        {700, 500, 90, 130, 380, 10}
     };
     int numBuildings = sizeof(buildings) / sizeof(buildings[0]);
 
