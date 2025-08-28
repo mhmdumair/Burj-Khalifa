@@ -204,43 +204,33 @@ void display() {
     int count = 9;  // More segments for taller building
 
     // Burj Khalifa-inspired asymmetric design with much greater height
-    float radiusValues[] = { 0.7f,1.0f, 1.3f, 1.7f, 4.0f,1.7f,1.3f,1.0f,0.7f };
-    float heightValues[] = { 20.0f, 38.0f, 45.0f, 50.0f, 62.0f, 49.0f, 42.0f, 40.0f, 31.0f };
+    float radiusValues[] = { 4.0f, 3.5f, 3.0f, 2.5f, 2.0f, 1.5f, 1.0f, 0.7f, 0.5f }; // Reordered for tapering effect
+    float heightValues[] = { 10.0f, 12.0f, 15.0f, 18.0f, 20.0f, 22.0f, 25.0f, 28.0f, 30.0f }; // Heights for each segment
 
-    float currentX = 0.0f;  // Track position for no gaps
+    float currentY = 0.0f;  // Track position for stacking along Y-axis
 
     for (int i = 0; i < count; i++) {
         float radius = radiusValues[i];
         float height = heightValues[i];
 
-        // Position cylinders with no gaps - each starts where previous ended
-        if (i > 0) {
-            currentX += radiusValues[i - 1] + radius;  // Previous radius + current radius = no gap
-        }
-
-        float z = 0;
-
         glPushMatrix();
-        glTranslatef(currentX, 0, z);
-        glRotatef(180, 0, 1, 0);
+        glTranslatef(0, currentY, 0); // Position along the Y-axis
+
         drawCylinder(0, 0, 0, height, radius);
+
         glPopMatrix();
 
-        // Add cone on top of middle cylinder (index 4)
-        if (i == 4) {
-            float coneX = currentX;
-            float coneY = height;
-            float coneZ = z;
-            float coneHeight = 35.0f; // Very long cone
-            float coneRadius = 0.2f; // Very small radius
-
-            glPushMatrix();
-            glTranslatef(coneX, coneY, coneZ);
-            glRotatef(180, 0, 1, 0);
-            drawCone(0, 0, 0, coneHeight, coneRadius);
-            glPopMatrix();
-        }
+        currentY += height; // Accumulate the height for the next cylinder
     }
+
+    // Add cone on top of the final cylinder
+    float coneHeight = 35.0f;
+    float coneRadius = 0.2f;
+
+    glPushMatrix();
+    glTranslatef(0, currentY, 0); // Place cone on top of the total height
+    drawCone(0, 0, 0, coneHeight, coneRadius);
+    glPopMatrix();
 
     glutSwapBuffers();
 }
